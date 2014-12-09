@@ -34,6 +34,13 @@ game.PlayerEntity = me.Entity.extend({
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
         
+        if (me.input.isKeyPressed('jump'))  {
+         if (!this.body.jumping && !this.body.falling)  {
+             this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
+             this.body.jumping = true;
+         }
+     }
+        
         if(this.body.vel.x !== 0){
             if(!this.renderable.isCurrentAnimation("smallWalk")) {
                 this.renderable.setCurrentAnimation("smallWalk");
@@ -129,13 +136,18 @@ game.BadGuy = me.Entity.extend({
     },
     
     collideHandler: function(response){
-        var ydif = this
+        var ydif = this.pos.y - response.b.pos.y;
+        console.log(ydif);
         
         if(response.b.type === 'badguy'){
-            me.state.change(me.state.MENU)
+            if(ydif <= -115){
+                response.b.alive = false;
+                
+            }else{
+                me.state.change(me.state.MENU);
         }
-        
+
     }
     
-    
+    }
 });

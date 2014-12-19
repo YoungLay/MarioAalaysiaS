@@ -24,6 +24,7 @@ game.PlayerEntity = me.Entity.extend({
     update: function(delta){
         
         
+        
         if(me.input.isKeyPressed("right")){
             this.body.vel.x += this.body.accel.x * me.timer.tick;
             
@@ -51,7 +52,6 @@ game.PlayerEntity = me.Entity.extend({
         }
         
         
-        this.body.update(delta);
         this._super(me.Entity, "update", [delta]);
         return true;
     },
